@@ -25,13 +25,13 @@ class JiuYe2ApplicationTests {
 //            userDAO.insert(user);
 //        }
 
-        System.out.println("修改前：" + userDAO.selectById(2).toString());
+        System.out.println("修改前：" + userDAO.selectById(3).toString());
         User user = new User();
-        user.setId(2);
-        user.setName("user234");
-        user.setPassword("pwd234");
+        user.setId(3);
+        user.setName("user235");
+        user.setPassword("pwd235");
         userDAO.updateById(user);
-        System.out.println("修改后：" + userDAO.selectById(2).toString());
+        System.out.println("修改后：" + userDAO.selectById(3).toString());
 
     }
 }
