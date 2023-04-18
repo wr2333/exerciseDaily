@@ -19,16 +19,17 @@ public class IndexController {
 
     @RequestMapping(path = {"/index/{id}", "/index"})
     @ResponseBody
-    public String index(@PathVariable(value = "id",required = false) Long id, @RequestParam(value = "page", defaultValue = "1") Long page,
+    public String index(@PathVariable(value = "id",required = false) Integer id, @RequestParam(value = "page", defaultValue = "1") Integer page,
                         HttpSession session) {
-        if (id == null) id = 3L;
+        System.out.println("id = " + id);
+        if (id == null) id = 3;
         return String.format(session.getAttribute("msg") + "hello, dear user %d, the page is %d", id, page);
     }
 
     @RequestMapping("/rrs")
     @ResponseBody
     public String rrs(HttpServletRequest request, HttpServletResponse response,
-                      HttpSession session, @CookieValue("buySession") String sessionId) {
+                      HttpSession session, @CookieValue("JSESSIONID") String sessionId) {
         StringBuilder sb = new StringBuilder();
         sb.append("请求类型为：<br/>");
         sb.append(request.getMethod() + "<br/>");
@@ -42,7 +43,7 @@ public class IndexController {
         sb.append("sessionId: " + sessionId);
 
         response.addHeader("userId", "233");
-        response.addCookie(new Cookie("buySession", "1234"));
+        response.addCookie(new Cookie("buyCookie", "1234"));
 
         session.setAttribute("msg", "传递请求。");
         return sb.toString();
@@ -63,7 +64,7 @@ public class IndexController {
     @ExceptionHandler()
     @ResponseBody
     public String errorHanlder(Exception e){
-        return "错误为：" + e.getMessage();
+        return "错误为：" + e.toString();
     }
 
 }
