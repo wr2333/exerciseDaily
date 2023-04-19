@@ -10,11 +10,11 @@ import java.util.List;
 @Mapper
 public interface UserDAO {
 
-    String TABLE_NAME = "user";
-    String INSERT_FIELDS = "name, password";
-    String SELECT_FIELDS = "id, " + INSERT_FIELDS;
+    String TABLE_NAME = " user ";
+    String INSERT_FIELDS = " name, password, salt ";
+    String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
-    @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS, ") values (#{name}, #{password})"})
+    @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS, ") values (#{name}, #{password}, #{salt})"})
     void insert(User user);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id = #{id}"})
@@ -24,4 +24,5 @@ public interface UserDAO {
 
     List<User> selectAll();
 
+    User getUserByName(String name);
 }

@@ -15,7 +15,7 @@ import java.util.Enumeration;
 public class IndexController {
 
     @Resource
-    private IndexService indexService;
+    IndexService indexService;
 
     @RequestMapping(path = {"/index/{id}", "/index"})
     @ResponseBody
@@ -49,10 +49,10 @@ public class IndexController {
         return sb.toString();
     }
 
-    @RequestMapping("/content")
+    @RequestMapping("/page")
     @ResponseBody
-    public String getContent(){
-        return indexService.getContent();
+    public String getIndexPage(){
+        return indexService.getIndexPage();
     }
 
     @RequestMapping(path = "/")

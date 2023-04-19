@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.jiuYe2.dao.UserDAO">
-    <resultMap id="resultMap" type="com.example.jiuYe2.model.User">
+    <resultMap id="BaseResultMap" type="com.example.jiuYe2.model.User">
+        <!--@Table user-->
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
     </resultMap>
     <sql id="selectFields">
-        id, name, password
+        id,
+        name,
+        password,
+        salt
     </sql>
     <sql id="table">
         user
@@ -15,20 +20,29 @@
 
     <update id="updateById" parameterType="com.example.jiuYe2.model.User">
         update
-        <include refid="table"/>
-        <set>
-            <if test="name != null">
-                name = #{name},
-            </if>
-            <if test="password != null">
-                password = #{password},
-            </if>
-        </set>
+        <include refid="table">
+        </include>
+        set
+        name = #{name}, password = #{password}, salt = #{salt}
         where id = #{id}
     </update>
 
     <select id="selectAll" resultType="com.example.jiuYe2.model.User">
-        select * from
-        <include refid="table"/>;
+        select
+        <include refid="selectFields">
+        </include>
+        from
+        <include refid="table">
+        </include>
+    </select>
+
+    <select id="getUserByName" resultMap="BaseResultMap">
+        select
+        <include refid="selectFields">
+        </include>
+        from
+        <include refid="table">
+        </include>
+        where name = #{name}
     </select>
 </mapper>
