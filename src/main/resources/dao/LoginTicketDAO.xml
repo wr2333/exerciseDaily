@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jiuYe2.dao.LoginTicketDAO">
+    <resultMap id="BaseResultMap" type="com.example.jiuYe2.model.LoginTicket">
+        <!--@Table login_ticket-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="ticket" jdbcType="VARCHAR" property="ticket"/>
+        <result column="expired" jdbcType="TIMESTAMP" property="expired"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+    <sql id="selectFields">
+        id,
+        user_id,
+        ticket,
+        expired,
+        status
+    </sql>
+    <sql id="insertFields">
+        user_id,
+        ticket,
+        expired,
+        status
+    </sql>
+    <sql id="table">
+        login_ticket
+    </sql>
+
+    <insert id="addTicket">
+        insert into
+        <include refid="table">
+        </include>
+        (<include refid="insertFields">
+        </include>)
+        values
+        (#{userId}, #{ticket}, #{expired}, #{status})
+    </insert>
+
+    <select id="getTicketByTicket" resultMap="BaseResultMap">
+        select
+        <include refid="selectFields">
+        </include>
+        from
+        <include refid="table">
+        </include>
+        where ticket = #{ticket}
+    </select>
+
+    <update id="updateStatus">
+        update
+        <include refid="table">
+        </include>
+        set
+        status = #{status}
+        where ticket = #{ticket}
+    </update>
+
+</mapper>
