@@ -12,19 +12,20 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class InformAspect {
 
-    @Before("execution(* com.example.jiuYe2.controller.*.*(..))")
-    public void beforeMethod(JoinPoint joinPoint){
-        StringBuilder sb = new StringBuilder("参数为：");
-        for (Object arg : joinPoint.getArgs()) {
-            if (arg != null) {
-                sb.append(arg + " | ");
-            }
-        }
-        log.info("方法运行前……" + sb);
-    }
+//    @Before("execution(* com.example.jiuYe2.controller.*.*(..))")
+//    public void beforeMethod(JoinPoint joinPoint){
+//        StringBuilder sb = new StringBuilder("参数为：");
+//        for (Object arg : joinPoint.getArgs()) {
+//            if (arg != null) {
+//                sb.append(arg + " | ");
+//            }
+//        }
+//        log.info("方法运行前……" + sb);
+//    }
+//
+//    @After("execution(* com.example.jiuYe2.controller.*.*(..))")
+//    public void afterMethod(){
+//        log.info("方法运行后……");
+//    }
 
-    @After("execution(* com.example.jiuYe2.controller.*.*(..))")
-    public void afterMethod(){
-        log.info("方法运行后……");
-    }
 }

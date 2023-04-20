@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -18,12 +17,11 @@ public class UserController {
     UserService userService;
 
     @RequestMapping("/{id}")
-    public List<ViewObject> getUserById(@PathVariable("id") Integer id) {
-        List<ViewObject> vos = new ArrayList<>();
+    @ResponseBody
+    public String getUserById(@PathVariable("id") Integer id) {
         ViewObject vo = new ViewObject();
         vo.put("user", userService.getUserById(id));
-        vos.add(vo);
-        return vos;
+        return vo.get("user").toString();
     }
 
     @RequestMapping("/page")

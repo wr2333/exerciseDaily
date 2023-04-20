@@ -9,6 +9,9 @@
         <result column="expired" jdbcType="TIMESTAMP" property="expired"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
     </resultMap>
+    <sql id="table">
+        login_ticket
+    </sql>
     <sql id="selectFields">
         id,
         user_id,
@@ -19,11 +22,7 @@
     <sql id="insertFields">
         user_id,
         ticket,
-        expired,
-        status
-    </sql>
-    <sql id="table">
-        login_ticket
+        expired
     </sql>
 
     <insert id="addTicket">
@@ -33,7 +32,7 @@
         (<include refid="insertFields">
         </include>)
         values
-        (#{userId}, #{ticket}, #{expired}, #{status})
+        (#{userId}, #{ticket}, #{expired})
     </insert>
 
     <select id="getTicketByTicket" resultMap="BaseResultMap">

@@ -24,7 +24,8 @@ public class RegLogController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(Model model, HttpServletResponse response, @RequestParam String name, @RequestParam String password) {
+    public String register(Model model, HttpServletResponse response, @RequestParam(value = "recall", required = false) String recall,
+                           @RequestParam String name, @RequestParam String password) {
         Map<String, String> map = regLogService.register(name, password);
         if (map.containsKey("msg")) {
             model.addAttribute("msg", map.get("msg"));
@@ -33,11 +34,15 @@ public class RegLogController {
         Cookie cookie = new Cookie("ticket", map.get("ticket"));
         cookie.setPath("/");
         response.addCookie(cookie);
+        if (recall != null) {
+            return "redirect:" + recall;
+        }
         return "redirect:/user/page";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(Model model, HttpServletResponse response, @RequestParam String name, @RequestParam String password) {
+    public String login(Model model, HttpServletResponse response, @RequestParam(value = "recall", required = false) String recall,
+                        @RequestParam String name, @RequestParam String password) {
         Map<String, String> map = regLogService.login(name, password);
         if (map.containsKey("msg")) {
             model.addAttribute("msg", map.get("msg"));
@@ -46,6 +51,9 @@ public class RegLogController {
         Cookie cookie = new Cookie("ticket", map.get("ticket"));
         cookie.setPath("/");
         response.addCookie(cookie);
+        if (recall != null) {
+            return "redirect:" + recall;
+        }
         return "redirect:/user/page";
     }
 

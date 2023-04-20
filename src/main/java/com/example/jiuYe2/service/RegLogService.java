@@ -56,7 +56,6 @@ public class RegLogService {
         Date now = new Date();
         now.setTime(now.getTime() + 1000*3600*24*7);
         ticket.setExpired(now);
-        ticket.setStatus(0);
         loginTicketDAO.addTicket(ticket);
         return ticket.getTicket();
     }
