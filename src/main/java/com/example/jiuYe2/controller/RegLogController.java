@@ -28,6 +28,7 @@ public class RegLogController {
                            @RequestParam String name, @RequestParam String password) {
         Map<String, String> map = regLogService.register(name, password);
         if (map.containsKey("msg")) {
+            // 向前端返回信息。
             model.addAttribute("msg", map.get("msg"));
             return "/reglog/page";
         }

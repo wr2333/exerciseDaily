@@ -1,5 +1,7 @@
 package com.example.jiuYe2.controller;
 
+import com.example.jiuYe2.model.Comment;
+import com.example.jiuYe2.service.CommentService;
 import com.example.jiuYe2.service.IndexService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,21 @@ public class IndexController {
     @Resource
     IndexService indexService;
 
+    // 映射带路径变量和不带路径变量的入口，实现可选的路径变量。
     @RequestMapping(path = {"/index/{id}", "/index"})
+    // 表示返回的是字符串而不是模板。
     @ResponseBody
     public String index(@PathVariable(value = "id",required = false) Integer id, @RequestParam(value = "page", defaultValue = "1") Integer page,
                         HttpSession session) {
         System.out.println("id = " + id);
         if (id == null) id = 3;
         return String.format(session.getAttribute("msg") + "hello, dear user %d, the page is %d", id, page);
+    }
+
+    @RequestMapping(path = "/")
+    public String redirect(HttpSession session) {
+        session.setAttribute("msg", "跳转而来。");
+        return "redirect:/index";
     }
 
     @RequestMapping("/rrs")
@@ -55,13 +65,8 @@ public class IndexController {
         return indexService.getIndexPage();
     }
 
-    @RequestMapping(path = "/")
-    public String redirect(HttpSession session) {
-        session.setAttribute("msg", "跳转而来。");
-        return "redirect:/index";
-    }
-
-    @ExceptionHandler()
+    // 自定义异常处理器，括号内可指明捕获那个异常类。
+    @ExceptionHandler(Exception.class)
     @ResponseBody
     public String errorHanlder(Exception e){
         return "错误为：" + e.toString();

@@ -19,8 +19,10 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // 按拦截器运行顺序添加
         registry.addInterceptor(passportInterceptor);
-        registry.addInterceptor(loginInterceptor);
+        // 登录拦截器放行登录注册页面
+        registry.addInterceptor(loginInterceptor).excludePathPatterns("/reglog/*", "/error/*");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 }

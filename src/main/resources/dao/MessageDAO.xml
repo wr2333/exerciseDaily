@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jiuYe2.dao.MessageDAO">
+    <resultMap id="BaseResultMap" type="com.example.jiuYe2.model.Message">
+        <!--@Table message-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="from_id" jdbcType="INTEGER" property="fromId"/>
+        <result column="to_id" jdbcType="INTEGER" property="toId"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="has_read" jdbcType="INTEGER" property="hasRead"/>
+        <result column="conversation_id" jdbcType="VARCHAR" property="conversationId"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+    </resultMap>
+    <sql id="table">
+        message
+    </sql>
+    <sql id="selectFields">
+        id,
+        from_id,
+        to_id,
+        content,
+        has_read,
+        conversation_id,
+        created_date
+    </sql>
+    <sql id="insertFields">
+        (from_id,
+         to_id,
+         content,
+         conversation_id)
+    </sql>
+
+    <insert id="addMessage">
+        insert into
+        <include refid="table">
+        </include>
+        <include refid="insertFields">
+        </include>
+        values (#{fromId}, #{toId}, #{content}, #{conversationId})
+    </insert>
+
+    <select id="getConversationDetail" resultMap="BaseResultMap">
+        select
+        <include refid="selectFields">
+        </include>
+        from
+        <include refid="table">
+        </include>
+        where conversation_id = #{conversationId}
+        order by created_date desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="getConversationList" resultMap="BaseResultMap">
+        select count(id) as id,
+               from_id,
+               to_id,
+               content,
+               has_read,
+               conversation_id,
+               created_date
+                from
+                (select
+        <include refid="selectFields">
+        </include>
+        from
+        <include refid="table">
+        </include>
+        where from_id = #{userId}
+           or to_id = #{userId}
+        order by created_date desc
+        limit 1000) as t1
+                group by conversation_id
+                limit #{offset}, #{limit}
+    </select>
+
+    <select id="getConversationUnreadCount" resultType="int">
+        select count(id)
+                from
+        <include refid="table">
+        </include>
+        where conversation_id = #{conversationId}
+          and to_id = #{userId}
+          and has_read = 0;
+    </select>
+</mapper>

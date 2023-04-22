@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HostHolder {
 
+    // 为每个用户线程分配用户变量，用于存放该用户对象
     private static final ThreadLocal<User> users = new ThreadLocal<>();
 
     public User getUser() {

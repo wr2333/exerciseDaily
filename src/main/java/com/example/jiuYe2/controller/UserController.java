@@ -21,7 +21,7 @@ public class UserController {
     public String getUserById(@PathVariable("id") Integer id) {
         ViewObject vo = new ViewObject();
         vo.put("user", userService.getUserById(id));
-        return vo.get("user").toString();
+        return vo.vo2String();
     }
 
     @RequestMapping("/page")

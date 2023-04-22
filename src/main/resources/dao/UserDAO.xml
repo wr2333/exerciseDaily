@@ -8,22 +8,24 @@
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="salt" jdbcType="VARCHAR" property="salt"/>
     </resultMap>
+    <sql id="table">
+        user
+    </sql>
     <sql id="selectFields">
         id,
         name,
         password,
         salt
     </sql>
-    <sql id="table">
-        user
-    </sql>
+
 
     <update id="updateById" parameterType="com.example.jiuYe2.model.User">
         update
         <include refid="table">
         </include>
-        set
-        name = #{name}, password = #{password}, salt = #{salt}
+        set name     = #{name},
+            password = #{password},
+            salt     = #{salt}
         where id = #{id}
     </update>
 

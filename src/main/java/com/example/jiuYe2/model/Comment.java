@@ -12,6 +12,7 @@ public class Comment {
     private Integer entityType;
     private String content;
     private Date createdDate;
+    // 进行逻辑删除
     private Integer status;
 
 }

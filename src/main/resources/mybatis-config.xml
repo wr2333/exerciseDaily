@@ -13,6 +13,7 @@
         <!-- Allows JDBC support for generated keys. A compatible driver is required.
         This setting forces generated keys to be used if set to true,
          as some drivers deny compatibility but still work -->
+<!--        返回插入操作后自增主键的值。-->
         <setting name="useGeneratedKeys" value="true"/>
     </settings>
     <!-- Continue going here -->

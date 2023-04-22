@@ -18,7 +18,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (hostHolder.getUser() == null) {
             response.sendRedirect("/reglog/page?recall=" + request.getRequestURI());
-            return false;   //废弃之前请求
+            // 因为重定向相当于二次请求，所以要返回false废弃之前的请求
+            return false;
         }
         return true;
     }

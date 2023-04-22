@@ -38,14 +38,17 @@ public class PassportInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        if (ticket != null) {   //用户登录过
+        // 判断用户是否登录过
+        if (ticket != null) {
             LoginTicket loginTicket = loginTicketDAO.getTicketByTicket(ticket);
             if (loginTicket != null && loginTicket.getStatus() == 0 && loginTicket.getExpired().after(new Date())) {
                 User user = userDAO.selectById(loginTicket.getUserId());
-                hostHolder.setUser(user);   //ticket未过期，加入本地线程
+                // ticket未过期，加入本地线程
+                hostHolder.setUser(user);
             }
         }
-        return true;    //用户没登录过或ticket过期
+        // 用户没登录过或ticket过期，不加入本地线程
+        return true;
     }
 
     @Override

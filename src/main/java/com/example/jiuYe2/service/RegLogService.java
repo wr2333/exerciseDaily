@@ -24,7 +24,8 @@ public class RegLogService {
     LoginTicketDAO loginTicketDAO;
 
     public Map<String, String> register(String name, String password) {
-        Map<String, String> map = new HashMap<>();  //返回提示信息，注册成功返回空。
+        // 返回提示信息，注册成功则返回map内无msg。
+        Map<String, String> map = new HashMap<>();
         if (StringUtils.isEmpty(name)){
             map.put("msg", "用户名不能为空");
             return map;
@@ -54,6 +55,7 @@ public class RegLogService {
         ticket.setUserId(userId);
         ticket.setTicket(UUID.randomUUID().toString().replaceAll("-", ""));
         Date now = new Date();
+        // getTime()返回为毫秒值，一天格式为1000*3600*24。
         now.setTime(now.getTime() + 1000*3600*24*7);
         ticket.setExpired(now);
         loginTicketDAO.addTicket(ticket);

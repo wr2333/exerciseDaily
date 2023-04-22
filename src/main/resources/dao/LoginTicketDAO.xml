@@ -20,19 +20,18 @@
         status
     </sql>
     <sql id="insertFields">
-        user_id,
-        ticket,
-        expired
+        (user_id,
+         ticket,
+         expired)
     </sql>
 
     <insert id="addTicket">
         insert into
         <include refid="table">
         </include>
-        (<include refid="insertFields">
-        </include>)
-        values
-        (#{userId}, #{ticket}, #{expired})
+        <include refid="insertFields">
+        </include>
+        values (#{userId}, #{ticket}, #{expired})
     </insert>
 
     <select id="getTicketByTicket" resultMap="BaseResultMap">
@@ -49,9 +48,7 @@
         update
         <include refid="table">
         </include>
-        set
-        status = #{status}
+        set status = #{status}
         where ticket = #{ticket}
     </update>
-
 </mapper>
