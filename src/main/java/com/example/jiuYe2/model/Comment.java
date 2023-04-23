@@ -14,5 +14,6 @@ public class Comment {
     private Date createdDate;
     // 进行逻辑删除
     private Integer status;
+    private Integer likeCount;
 
 }

@@ -1,5 +1,9 @@
 package com.example.jiuYe2.controller;
 
+import com.example.jiuYe2.async.EventBase;
+import com.example.jiuYe2.async.EventProducer;
+import com.example.jiuYe2.async.EventType;
+import com.example.jiuYe2.service.CommentService;
 import com.example.jiuYe2.service.LikeService;
 import com.example.jiuYe2.util.HostHolder;
 import com.example.jiuYe2.util.JiuYeUtil;
@@ -20,7 +24,13 @@ public class LikeController {
     LikeService likeService;
 
     @Resource
+    CommentService commentService;
+
+    @Resource
     HostHolder hostHolder;
+
+    @Resource
+    EventProducer eventProducer;
 
     @RequestMapping(path = {"/yes"}, method = RequestMethod.POST)
     @ResponseBody
@@ -29,6 +39,15 @@ public class LikeController {
             return JsonUtil.json2String(111, "未登录。");
         }
         long likeCount = likeService.like(hostHolder.getUser().getId(), JiuYeUtil.ENTITY_FLOOR, commentId);
+
+        EventBase eventBase = new EventBase();
+        eventBase.setEventType(EventType.LIKE);
+        eventBase.setEntityType(JiuYeUtil.ENTITY_FLOOR);
+        eventBase.setEntityId(commentId);
+        eventBase.setFormId(hostHolder.getUser().getId());
+        eventBase.setToId(commentService.getCommentById(commentId).getUserId());
+        eventProducer.makeEvent(eventBase);
+
         return JsonUtil.json2String(0, String.valueOf(likeCount));
     }
 

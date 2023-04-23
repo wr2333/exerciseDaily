@@ -18,4 +18,6 @@ public interface CommentDAO {
 
     int updateStatus(@Param("id") int id, @Param("status") int status);
 
+    Comment getCommentById(int id);
+
 }
