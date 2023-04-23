@@ -40,6 +40,7 @@ public class LikeController {
         }
         long likeCount = likeService.like(hostHolder.getUser().getId(), JiuYeUtil.ENTITY_FLOOR, commentId);
 
+        // 插入异步
         EventBase eventBase = new EventBase();
         eventBase.setEventType(EventType.LIKE);
         eventBase.setEntityType(JiuYeUtil.ENTITY_FLOOR);

@@ -1,14 +1,8 @@
-package com.example.jiuYe2;
+package com.example.jiuYe2.test;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.example.jiuYe2.model.User;
-import redis.clients.jedis.BinaryClient;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.Tuple;
 
-public class JedisTests {
+public class JedisTest {
 
     public static void main(String[] args) {
 

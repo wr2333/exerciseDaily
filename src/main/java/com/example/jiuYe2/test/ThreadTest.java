@@ -1,4 +1,4 @@
-package com.example.jiuYe2;
+package com.example.jiuYe2.test;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -68,7 +68,7 @@ class Producer implements Runnable {
     }
 }
 
-public class ThreadTests {
+public class ThreadTest {
 
     public static void queueThread() {
         // 队列中可放5个元素。
