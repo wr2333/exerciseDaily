@@ -18,23 +18,25 @@ public class MailSender implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         mailSender = new JavaMailSenderImpl();
-        mailSender.setUsername("xxx@xxx.com");
-        mailSender.setPassword("xxx");
+        mailSender.setUsername("2860365893@qq.com");
+        mailSender.setPassword("xxxxxx");
         mailSender.setHost("smtp.qq.com");
         mailSender.setPort(465);
-        mailSender.setProtocol("smtps");
+        mailSender.setProtocol("smtp");
         mailSender.setDefaultEncoding("utf8");
+
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.ssl.enable", true);
-        //javaMailProperties.put("mail.smtp.auth", true);
-        //javaMailProperties.put("mail.smtp.starttls.enable", true);
+        javaMailProperties.put("mail.smtp.auth", true);
+        javaMailProperties.put("mail.smtp.starttls.enable", true);
         mailSender.setJavaMailProperties(javaMailProperties);
     }
 
+    // to为收件人邮箱，subject为邮件标题。
     public boolean send(String to, String subject) {
         try {
-            String nick = MimeUtility.encodeText("xxx");
-            InternetAddress from = new InternetAddress(nick + "<xxx@xxx.com>");
+            String nick = MimeUtility.encodeText("haha");
+            InternetAddress from = new InternetAddress(nick + "<2860365893@qq.com>");
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             mimeMessageHelper.setTo(to);

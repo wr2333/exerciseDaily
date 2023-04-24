@@ -1,5 +1,8 @@
 package com.example.jiuYe2.controller;
 
+import com.example.jiuYe2.async.EventBase;
+import com.example.jiuYe2.async.EventProducer;
+import com.example.jiuYe2.async.EventType;
 import com.example.jiuYe2.service.RegLogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,9 @@ public class RegLogController {
 
     @Resource
     RegLogService regLogService;
+
+    @Resource
+    EventProducer eventProducer;
 
     @RequestMapping("/page")
     @ResponseBody
@@ -52,6 +58,12 @@ public class RegLogController {
         Cookie cookie = new Cookie("ticket", map.get("ticket"));
         cookie.setPath("/");
         response.addCookie(cookie);
+
+        EventBase eventBase = new EventBase();
+        eventBase.setEventType(EventType.LOGIN);
+        eventBase.setExtraElem("email", "2860365893@qq.com");
+        eventProducer.makeEvent(eventBase);
+
         if (recall != null) {
             return "redirect:" + recall;
         }

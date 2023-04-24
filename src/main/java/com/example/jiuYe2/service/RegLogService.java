@@ -72,6 +72,7 @@ public class RegLogService {
             map.put("msg", "密码不能为空");
             return map;
         }
+
         User user = userDAO.getUserByName(name);
         if (user == null) {
             map.put("msg", "用户不存在");
