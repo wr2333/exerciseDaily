@@ -4,8 +4,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Component
@@ -18,6 +20,93 @@ public class JedisAdapter implements InitializingBean {
         pool = new JedisPool("redis://localhost:6379/0");
     }
 
+    public Jedis getJedis() {
+        return pool.getResource();
+    }
+
+
+    public List<Object> exec(Transaction transaction, Jedis jedis) {
+        try {
+            return transaction.exec();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (transaction != null) {
+                try {
+                    transaction.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
+    // z set方法
+    public long zadd(String key, double score, String value) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zadd(key, score, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+
+    public long zrem(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zrem(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+
+    public Set<String> zrange(String key, int start, int end) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zrange(key, start, end);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
+    public Double zscore(String key, String member) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zscore(key, member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
+    // set方法
     public long sadd(String key, String value) {
         Jedis jedis = null;
         try {
@@ -26,7 +115,6 @@ public class JedisAdapter implements InitializingBean {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // 用完关闭jedis
             if (jedis != null) {
                 jedis.close();
             }
@@ -79,6 +167,7 @@ public class JedisAdapter implements InitializingBean {
         return false;
     }
 
+    // list方法
     public List<String> brpop(int timeout, String key) {
         Jedis jedis = null;
         try {

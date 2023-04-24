@@ -19,6 +19,7 @@ public class MailSender implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         mailSender = new JavaMailSenderImpl();
         mailSender.setUsername("2860365893@qq.com");
+        // 改为qq第三方验证码
         mailSender.setPassword("xxxxxx");
         mailSender.setHost("smtp.qq.com");
         mailSender.setPort(465);

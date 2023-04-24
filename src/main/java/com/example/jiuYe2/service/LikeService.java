@@ -14,38 +14,38 @@ public class LikeService {
 
     public long like(int userId, int entityType, int entityId) {
         // 将该用户加入like集合并移出dislike集合
-        String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
-        jedisAdapter.sadd(likeKey, String.valueOf(userId));
+        String likeSet = RedisKeyUtil.getLikeSetKey(entityType, entityId);
+        jedisAdapter.sadd(likeSet, String.valueOf(userId));
 
-        String dislikeKey = RedisKeyUtil.getDislikeKey(entityType, entityId);
-        jedisAdapter.srem(dislikeKey, String.valueOf(userId));
+        String dislikeSet = RedisKeyUtil.getDislikeSetKey(entityType, entityId);
+        jedisAdapter.srem(dislikeSet, String.valueOf(userId));
 
-        return jedisAdapter.scard(likeKey);
+        return jedisAdapter.scard(likeSet);
     }
 
     public long dislike(int userId, int entityType, int entityId) {
         // 将该用户加入dislike集合并移出like集合
-        String dislikeKey = RedisKeyUtil.getDislikeKey(entityType, entityId);
-        jedisAdapter.sadd(dislikeKey, String.valueOf(userId));
+        String dislikeSet = RedisKeyUtil.getDislikeSetKey(entityType, entityId);
+        jedisAdapter.sadd(dislikeSet, String.valueOf(userId));
 
-        String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
-        jedisAdapter.srem(likeKey, String.valueOf(userId));
+        String likeSet = RedisKeyUtil.getLikeSetKey(entityType, entityId);
+        jedisAdapter.srem(likeSet, String.valueOf(userId));
 
-        return jedisAdapter.scard(likeKey);
+        return jedisAdapter.scard(likeSet);
     }
 
     public int getLikeStatus(int userId, int entityType, int entityId) {
-        String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
-        if (jedisAdapter.sismember(likeKey, String.valueOf(userId))) {
+        String likeSet = RedisKeyUtil.getLikeSetKey(entityType, entityId);
+        if (jedisAdapter.sismember(likeSet, String.valueOf(userId))) {
             return 1;
         }
-        String disLikeKey = RedisKeyUtil.getDislikeKey(entityType, entityId);
-        return jedisAdapter.sismember(disLikeKey, String.valueOf(userId)) ? -1 : 0;
+        String dislikeSet = RedisKeyUtil.getDislikeSetKey(entityType, entityId);
+        return jedisAdapter.sismember(dislikeSet, String.valueOf(userId)) ? -1 : 0;
     }
 
     public long getLikeCount(int entityType, int entityId) {
-        String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
-        return jedisAdapter.scard(likeKey);
+        String likeSet = RedisKeyUtil.getLikeSetKey(entityType, entityId);
+        return jedisAdapter.scard(likeSet);
     }
 
 }
