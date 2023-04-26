@@ -3,13 +3,9 @@ package com.example.jiuYe2.async.handler;
 import com.alibaba.fastjson.JSONObject;
 import com.example.jiuYe2.async.EventBase;
 import com.example.jiuYe2.async.EventType;
-import com.example.jiuYe2.model.Comment;
 import com.example.jiuYe2.model.Feed;
 import com.example.jiuYe2.model.User;
-import com.example.jiuYe2.service.CommentService;
-import com.example.jiuYe2.service.FeedService;
-import com.example.jiuYe2.service.FollowService;
-import com.example.jiuYe2.service.UserService;
+import com.example.jiuYe2.service.*;
 import com.example.jiuYe2.util.JedisAdapter;
 import com.example.jiuYe2.util.JiuYeUtil;
 import com.example.jiuYe2.util.RedisKeyUtil;
@@ -23,9 +19,6 @@ public class FeedHandler implements EventHandler {
 
     @Resource
     UserService userService;
-
-    @Resource
-    CommentService commentService;
 
     @Resource
     FeedService feedService;
@@ -43,9 +36,8 @@ public class FeedHandler implements EventHandler {
             data.put("userId", String.valueOf(user.getId()));
             data.put("userName", user.getName());
             if (eventBase.getEventType() == EventType.COMMENT || (eventBase.getEventType() == EventType.FOLLOW && eventBase.getEntityType() == JiuYeUtil.ENTITY_FLOOR)) {
-                Comment comment = commentService.getCommentById(eventBase.getEntityId());
-                data.put("commentId", String.valueOf(comment.getId()));
-                data.put("content", String.valueOf(comment.getContent()));
+                data.put("commentId", String.valueOf(eventBase.getEntityId()));
+                data.put("content", eventBase.getExtraElem("content"));
             }
             return JSONObject.toJSONString(data);
         }

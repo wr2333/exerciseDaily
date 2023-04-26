@@ -57,8 +57,8 @@ public class CommentController {
             eventBase.setFromId(hostHolder.getUser().getId());
             eventBase.setEntityType(JiuYeUtil.ENTITY_FLOOR);
             eventBase.setEntityId(comment.getId());
+            eventBase.setExtraElem("content", comment.getContent());
             eventProducer.makeEvent(eventBase);
-
             return JsonUtil.json2String(0);
         }
         return JsonUtil.json2String(1, "评论添加失败。");
