@@ -1,6 +1,9 @@
 package com.example.jiuYe2.controller;
 
 
+import com.example.jiuYe2.async.EventBase;
+import com.example.jiuYe2.async.EventProducer;
+import com.example.jiuYe2.async.EventType;
 import com.example.jiuYe2.model.Comment;
 import com.example.jiuYe2.service.CommentService;
 import com.example.jiuYe2.service.UserService;
@@ -31,6 +34,9 @@ public class CommentController {
     @Resource
     HostHolder hostHolder;
 
+    @Resource
+    EventProducer eventProducer;
+
     // 添加主楼评论
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -46,6 +52,13 @@ public class CommentController {
         comment.setEntityType(JiuYeUtil.ENTITY_FLOOR);
         comment.setContent(content);
         if (commentService.addComment(comment) > 0) {
+            EventBase eventBase = new EventBase();
+            eventBase.setEventType(EventType.COMMENT);
+            eventBase.setFromId(hostHolder.getUser().getId());
+            eventBase.setEntityType(JiuYeUtil.ENTITY_FLOOR);
+            eventBase.setEntityId(comment.getId());
+            eventProducer.makeEvent(eventBase);
+
             return JsonUtil.json2String(0);
         }
         return JsonUtil.json2String(1, "评论添加失败。");

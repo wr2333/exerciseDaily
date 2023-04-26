@@ -30,7 +30,7 @@
          conversation_id)
     </sql>
 
-    <insert id="addMessage">
+    <insert id="addMessage" useGeneratedKeys="true" keyProperty="id">
         insert into
         <include refid="table">
         </include>

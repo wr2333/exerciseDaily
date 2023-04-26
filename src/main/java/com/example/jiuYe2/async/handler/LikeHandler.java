@@ -26,7 +26,7 @@ public class LikeHandler implements EventHandler {
         Message message = new Message();
         message.setFromId(JiuYeUtil.ADMINISTRATOR);
         message.setToId(eventBase.getToId());
-        message.setContent("你的评论被用户" + userService.getUserById(eventBase.getFormId()).getName() + "赞了。");
+        message.setContent("你的评论被用户" + userService.getUserById(eventBase.getFromId()).getName() + "赞了。");
         messageService.addMessage(message);
     }
 

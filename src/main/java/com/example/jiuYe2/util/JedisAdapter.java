@@ -187,6 +187,7 @@ public class JedisAdapter implements InitializingBean {
         Jedis jedis = null;
         try {
             jedis = pool.getResource();
+            // 插入列表头
             return jedis.lpush(key, value);
         } catch (Exception e) {
             e.printStackTrace();

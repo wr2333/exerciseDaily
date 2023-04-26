@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jiuYe2.dao.FeedDAO">
+    <resultMap id="BaseResultMap" type="com.example.jiuYe2.model.Feed">
+        <!--@Table feed-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="data" jdbcType="LONGVARCHAR" property="data"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+    </resultMap>
+    <sql id="table">
+        feed
+    </sql>
+    <sql id="selectFields">
+        id,
+        user_id,
+        type,
+        data,
+        created_time
+    </sql>
+    <sql id="insertFields">
+        (user_id, type, data)
+    </sql>
+
+    <insert id="addFeed" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        <include refid="table">
+        </include>
+        <include refid="insertFields">
+        </include>
+        values (#{userId}, #{type}, #{data})
+    </insert>
+
+    <select id="getFeedByUserIds" resultMap="BaseResultMap">
+        select
+        <include refid="selectFields">
+        </include>
+        from
+        <include refid="table">
+        </include>
+        <where>
+            <if test="userIds.size() != 0">
+                user_id in
+                <foreach collection="userIds" item="userId" open="(" separator=", " close=")">
+                    #{userId}
+                </foreach>
+            </if>
+            and id &lt; #{maxId}
+                    order by id desc
+                    limit #{count}
+        </where>
+    </select>
+
+    <select id="getFeedById" resultMap="BaseResultMap">
+        select
+        <include refid="selectFields">
+        </include>
+        from
+        <include refid="table">
+        </include>
+        where id = #{id}
+    </select>
+</mapper>

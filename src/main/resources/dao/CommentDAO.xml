@@ -32,7 +32,7 @@
          content)
     </sql>
 
-    <insert id="addComment">
+    <insert id="addComment" useGeneratedKeys="true" keyProperty="id" >
         insert into
         <include refid="table">
         </include>

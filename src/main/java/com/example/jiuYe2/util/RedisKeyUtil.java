@@ -13,6 +13,8 @@ public class RedisKeyUtil {
     // 粉丝
     private static final String FANS_Z_SET = "FANS_Z_SET";
 
+    private static final String TIMELINE_QUEUE = "TIMELINE_QUEUE";
+
     public static String getLikeSetKey(int entityType, int entityId) {
         return LIKE_SET + SPLIT + entityType + SPLIT + entityId;
     }
@@ -26,13 +28,17 @@ public class RedisKeyUtil {
         return CARE_Z_SET + SPLIT + userId + SPLIT + entityType;
     }
 
+    public static String getEventQueueKey() {
+        return EVENT_QUEUE;
+    }
+
     // 关注某个实体的对象集合，存储关注entityType类型的entityId实体的所有对象。
     public static String getFansZSetKey(int entityType, int entityId) {
         return FANS_Z_SET + SPLIT + entityType + SPLIT + entityId;
     }
 
-    public static String getEventQueueKey() {
-        return EVENT_QUEUE;
+    public static String getTimelineQueueKey(int userId) {
+        return TIMELINE_QUEUE + SPLIT + userId;
     }
 
 }

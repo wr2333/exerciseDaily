@@ -24,7 +24,7 @@ public class CommentService {
         comment.setContent(HtmlUtils.htmlEscape(comment.getContent()));
         // 和谐敏感词
         comment.setContent(healthUtil.filter(comment.getContent()));
-        return commentDAO.addComment(comment) > 0 ? 1 : 0;
+        return commentDAO.addComment(comment) > 0 ? comment.getId() : 0;
     }
 
     public List<Comment> getCommentByEntity(int entityId, int entityType) {

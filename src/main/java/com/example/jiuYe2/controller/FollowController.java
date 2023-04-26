@@ -83,7 +83,7 @@ public class FollowController {
     @RequestMapping("/get")
     @ResponseBody
     public String getFans(int entityType, int entityId) {
-        List<Integer> fansId = followService.getFansId(entityType, entityId, 10);
+        List<Integer> fansId = followService.getFansIds(entityType, entityId, 10);
         List<User> users = new ArrayList<>();
         for (int id : fansId) {
             users.add(userService.getUserById(id));

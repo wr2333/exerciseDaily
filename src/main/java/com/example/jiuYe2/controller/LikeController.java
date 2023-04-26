@@ -45,7 +45,7 @@ public class LikeController {
         eventBase.setEventType(EventType.LIKE);
         eventBase.setEntityType(JiuYeUtil.ENTITY_FLOOR);
         eventBase.setEntityId(commentId);
-        eventBase.setFormId(hostHolder.getUser().getId());
+        eventBase.setFromId(hostHolder.getUser().getId());
         eventBase.setToId(commentService.getCommentById(commentId).getUserId());
         eventProducer.makeEvent(eventBase);
 

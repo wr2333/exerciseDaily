@@ -19,7 +19,7 @@ public class MessageService {
 
     public int addMessage(Message message) {
         message.setContent(healthUtil.filter(message.getContent()));
-        return messageDAO.addMessage(message) > 0 ? 1 : 0;
+        return messageDAO.addMessage(message) > 0 ? message.getId() : 0;
     }
 
     public List<Message> getConversationList(int userId, int offset, int limit) {

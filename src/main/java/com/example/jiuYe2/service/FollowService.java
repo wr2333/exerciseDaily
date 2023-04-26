@@ -1,6 +1,8 @@
 package com.example.jiuYe2.service;
 
+import com.example.jiuYe2.model.User;
 import com.example.jiuYe2.util.JedisAdapter;
+import com.example.jiuYe2.util.JiuYeUtil;
 import com.example.jiuYe2.util.RedisKeyUtil;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -47,19 +49,30 @@ public class FollowService {
         return result.size() == 2 && (long) result.get(0) > 0 && (long) result.get(1) > 0;
     }
 
-    public List<Integer> getFansId(int entityType, int entityId, int count) {
+    public List<Integer> getFansIds(int entityType, int entityId, int count) {
         String fansZSet = RedisKeyUtil.getFansZSetKey(entityType, entityId);
         Set<String> set = jedisAdapter.zrange(fansZSet, 0, count);
-        List<Integer> fans = new ArrayList<>();
+        List<Integer> fansIds = new ArrayList<>();
         for (String id : set) {
-            fans.add(Integer.valueOf(id));
+            fansIds.add(Integer.valueOf(id));
         }
-        return fans;
+        return fansIds;
+    }
+
+    public List<Integer> getCareIds(int userId, int count) {
+        String careZSet = RedisKeyUtil.getCareZSetKey(userId, JiuYeUtil.ENTITY_USER);
+        Set<String> set = jedisAdapter.zrange(careZSet, 0, count);
+        List<Integer> careIds = new ArrayList<>();
+        for (String id : set) {
+            careIds.add(Integer.valueOf(id));
+        }
+        return careIds;
     }
 
     public boolean isFans(int userId, int entityType, int entityId) {
         String fansZSet = RedisKeyUtil.getFansZSetKey(entityType, entityId);
         return jedisAdapter.zscore(fansZSet, String.valueOf(userId)) != null ;
     }
+
 
 }

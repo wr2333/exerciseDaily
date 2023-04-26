@@ -10,7 +10,7 @@ public class EventBase {
 
     private EventType eventType;
     // 触发事件的用户
-    private int formId;
+    private int fromId;
     // 被影响的用户
     private int toId;
     // 事件涉及的实体
