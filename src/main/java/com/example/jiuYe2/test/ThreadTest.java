@@ -221,9 +221,9 @@ public class ThreadTest {
         }
     }
 
-    public static void main(String[] args) {
-
-        futureResult();
+//    public static void main(String[] args) {
+//
+//        futureResult();
 
 //        atomicCount();
 
@@ -257,6 +257,6 @@ public class ThreadTest {
 //        for (int i = 0; i < 5; i++) {
 //            new MyThread(i).start();
 //        }
-    }
+//    }
 
 }

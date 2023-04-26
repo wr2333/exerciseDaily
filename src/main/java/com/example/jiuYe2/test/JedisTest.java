@@ -4,10 +4,10 @@ import redis.clients.jedis.Jedis;
 
 public class JedisTest {
 
-    public static void main(String[] args) {
-
-        // 选择端口为6379的第1个数据库，默认为6379第0个。
-        Jedis jedis = new Jedis("redis://localhost:6379/0");
+//    public static void main(String[] args) {
+//
+//        // 选择端口为6379的第1个数据库，默认为6379第0个。
+//        Jedis jedis = new Jedis("redis://localhost:6379/0");
 
 //        // 删除库内所有数据
 //        jedis.flushDB();
@@ -128,5 +128,5 @@ public class JedisTest {
 //        jedis.set("user1", JSONObject.toJSONString(user));
 //        User user2 = JSON.parseObject(jedis.get("user1"), User.class);
 
-    }
+//    }
 }

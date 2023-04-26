@@ -1,29 +1,46 @@
 package com.example.jiuYe2;
 
-import com.example.jiuYe2.dao.UserDAO;
-import com.example.jiuYe2.model.User;
-import com.example.jiuYe2.util.Md5Util;
-import org.junit.jupiter.api.Test;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import com.example.jiuYe2.service.CommentService;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.UUID;
 
-@SpringBootTest
-class JiuYe2ApplicationTests {
+// 新版本测试类写法，必须加public
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = JiuYe2Application.class)
+public class JiuYe2ApplicationTests {
 
     @Resource
-    UserDAO userDAO;
+    CommentService commentService;
+
+    // @Before和@After会在每个测试方法前后执行一次，不用是static。
+    // @BeforeClass和@AfterClass只会在整个测试开始前后执行一次，必须为static。
+    @BeforeClass
+    public static void setUp() {
+        System.out.println("测试前准备");
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        System.out.println("测试后清理");
+    }
 
     @Test
-    void contextLoads() {
-
-        for (int i = 2; i <= 11; i++) {
-            User user = userDAO.selectById(i);
-            user.setSalt(UUID.randomUUID().toString().substring(0, 5));
-            user.setPassword(Md5Util.Md5(user.getPassword() + user.getSalt()));
-            userDAO.updateById(user);
-        }
-
+    public void testComment() {
+        System.out.println("测试接口中");
+        Assert.assertEquals(9, commentService.getCommentCountByEntity(1, 1));
     }
+
+    @Test(expected = NullPointerException.class)
+    public void testException() {
+        System.out.println("测试异常中");
+        throw new NullPointerException("你是一个空指针啊啊");
+    }
+
 }
